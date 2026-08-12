@@ -1,0 +1,1406 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;800;900&display=swap');
+
+:root {
+    /* PCB Soldermask Dark Green & Poster Palette */
+    --bg-dark: #030a06;
+    --bg-card: rgba(6, 22, 14, 0.82);
+    --border-color: rgba(57, 255, 20, 0.15);
+    --text-primary: #ecfdf5;
+    --text-secondary: #86efac;
+    
+    /* Poster Red & Gold Accent Colors */
+    --poster-red: #e11d48;
+    --poster-red-glow: rgba(225, 29, 72, 0.45);
+    --poster-dark-red: #991b1b;
+    --gold-copper: #e5c158;
+    --gold-glow: rgba(229, 193, 88, 0.3);
+    
+    /* Neon Colors matching live circuit elements */
+    --neon-green: #39ff14;
+    --neon-green-glow: rgba(57, 255, 20, 0.35);
+    --neon-orange: #ffaa00;
+    --neon-orange-glow: rgba(255, 170, 0, 0.35);
+    --neon-blue: #00e5ff;
+    --neon-blue-glow: rgba(0, 229, 255, 0.35);
+    
+    --whatsapp-green: #25d366;
+    --whatsapp-glow: rgba(37, 211, 102, 0.35);
+    
+    --font-cyber: 'Orbitron', sans-serif;
+    --font-sans: 'Inter', sans-serif;
+    
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background Canvas & Breadboard Grid */
+#circuit-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.grid-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(rgba(57, 255, 20, 0.08) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Header / Poster Hero Section */
+header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.glow-header-container {
+    display: block;
+    width: 100%;
+    padding: 2rem;
+    border-radius: 20px;
+    background: rgba(4, 18, 12, 0.92);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 45px rgba(0, 0, 0, 0.85), inset 0 0 20px rgba(57, 255, 20, 0.04);
+    backdrop-filter: blur(12px);
+    position: relative;
+}
+
+/* Corner screw decorations */
+.glow-header-container::before, .glow-header-container::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #ddd 20%, #777 60%, #333 100%);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+.glow-header-container::before { top: 10px; left: 10px; }
+.glow-header-container::after { top: 10px; right: 10px; }
+
+.glow-header-container-bottom-screws {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    height: 10px;
+    pointer-events: none;
+}
+.glow-header-container-bottom-screws::before, .glow-header-container-bottom-screws::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #ddd 20%, #777 60%, #333 100%);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.glow-header-container-bottom-screws::before { left: 0; }
+.glow-header-container-bottom-screws::after { right: 0; }
+
+/* University Branding Header */
+.university-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(229, 193, 88, 0.2);
+}
+
+.univ-logo-wrap {
+    flex-shrink: 0;
+}
+
+.univ-logo {
+    filter: drop-shadow(0 0 10px rgba(229, 193, 88, 0.4));
+}
+
+.univ-titles {
+    text-align: left;
+}
+
+.univ-name {
+    font-family: var(--font-cyber);
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: var(--gold-copper);
+    text-shadow: 0 0 12px var(--gold-glow);
+    line-height: 1.1;
+}
+
+.dept-name {
+    font-family: var(--font-cyber);
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--neon-blue);
+    margin-top: 0.2rem;
+    text-transform: uppercase;
+}
+
+/* Poster Main Title */
+.poster-title-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 1.25rem 0;
+}
+
+.circuit-decoration-left, .circuit-decoration-right {
+    display: flex;
+    align-items: center;
+}
+
+h1.main-title.poster-heading {
+    font-family: var(--font-cyber);
+    font-size: 3.4rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    line-height: 1.15;
+    text-transform: uppercase;
+    color: #ff2a2a;
+    background: linear-gradient(180deg, #ff4d4d 0%, #e60000 65%, #990000 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 15px rgba(230, 0, 0, 0.5));
+    text-shadow: 0 0 25px rgba(230, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+/* Poster Top Feature Badges Bar */
+.poster-top-badges {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin: 1.5rem 0 1.25rem 0;
+}
+
+.top-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(8, 30, 18, 0.85);
+    border: 1px solid rgba(57, 255, 20, 0.25);
+    border-radius: 50px;
+    font-family: var(--font-cyber);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text-primary);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    transition: transform var(--transition-speed), border-color var(--transition-speed);
+}
+
+.top-badge:hover {
+    transform: translateY(-2px);
+    border-color: var(--neon-green);
+}
+
+.badge-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    stroke: var(--neon-orange);
+    color: var(--neon-orange);
+    flex-shrink: 0;
+}
+
+.badge-rounds .badge-icon { stroke: var(--neon-orange); color: var(--neon-orange); }
+.badge-rounds .badge-accent-blue { color: var(--neon-blue); margin-left: 0.25rem; }
+
+.badge-part .badge-icon { stroke: var(--neon-orange); color: var(--neon-orange); }
+
+.badge-prizes .badge-icon { stroke: var(--gold-copper); color: var(--gold-copper); }
+
+/* Poster Tagline */
+.poster-tagline {
+    font-family: var(--font-cyber);
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+    margin-top: 1rem;
+    text-transform: uppercase;
+}
+
+.poster-tagline .highlight-mind {
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue-glow);
+}
+
+.poster-tagline .highlight-skills {
+    color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green-glow);
+}
+
+.poster-tagline .highlight-champion {
+    color: var(--neon-orange);
+    text-shadow: 0 0 10px var(--neon-orange-glow);
+}
+
+/* Event Info Row */
+.event-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+}
+
+.meta-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    backdrop-filter: blur(12px);
+    transition: transform var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.meta-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(57, 255, 20, 0.35);
+    box-shadow: 0 8px 24px rgba(57, 255, 20, 0.12);
+}
+
+.meta-card svg {
+    width: 2.2rem;
+    height: 2.2rem;
+    fill: none;
+    stroke-width: 1.5;
+    flex-shrink: 0;
+}
+
+.meta-card.date svg { stroke: var(--neon-orange); filter: drop-shadow(0 0 5px var(--neon-orange-glow)); }
+.meta-card.venue svg { stroke: var(--neon-blue); filter: drop-shadow(0 0 5px var(--neon-blue-glow)); }
+.meta-card.time svg { stroke: var(--gold-copper); filter: drop-shadow(0 0 5px var(--gold-glow)); }
+.meta-card.participants svg { stroke: var(--neon-green); filter: drop-shadow(0 0 5px var(--neon-green-glow)); }
+
+.meta-details h3 {
+    font-family: var(--font-cyber);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.meta-details p {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Main Two-Column Layout */
+.main-content-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+    margin-bottom: 3rem;
+}
+
+/* Competition Info Section */
+.rounds-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.section-title {
+    font-family: var(--font-cyber);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-title span {
+    width: 8px;
+    height: 20px;
+    background: var(--neon-green);
+    display: inline-block;
+    box-shadow: 0 0 8px var(--neon-green-glow);
+}
+
+.rounds-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.round-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    transition: transform var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.round-card.round-1 { border-left: 4px solid var(--neon-green); }
+.round-card.round-1:hover { border-color: rgba(57, 255, 20, 0.4); box-shadow: 0 8px 30px rgba(57, 255, 20, 0.1); transform: translateX(5px); }
+
+.round-card.round-2 { border-left: 4px solid var(--neon-blue); }
+.round-card.round-2:hover { border-color: rgba(0, 229, 255, 0.4); box-shadow: 0 8px 30px rgba(0, 229, 255, 0.1); transform: translateX(5px); }
+
+.round-card.round-3 { border-left: 4px solid var(--neon-orange); }
+.round-card.round-3:hover { border-color: rgba(255, 170, 0, 0.4); box-shadow: 0 8px 30px rgba(255, 170, 0, 0.1); transform: translateX(5px); }
+
+.round-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.round-badge {
+    font-family: var(--font-cyber);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.round-card.round-1 .round-badge { background: rgba(57, 255, 20, 0.1); color: var(--neon-green); border: 1px solid rgba(57, 255, 20, 0.3); }
+.round-card.round-2 .round-badge { background: rgba(0, 229, 255, 0.1); color: var(--neon-blue); border: 1px solid rgba(0, 229, 255, 0.3); }
+.round-card.round-3 .round-badge { background: rgba(255, 170, 0, 0.1); color: var(--neon-orange); border: 1px solid rgba(255, 170, 0, 0.3); }
+
+.round-title {
+    font-family: var(--font-cyber);
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+}
+
+.round-card.round-1 .round-title { color: var(--neon-green); }
+.round-card.round-2 .round-title { color: var(--neon-blue); }
+.round-card.round-3 .round-title { color: var(--neon-orange); }
+
+/* Schematic Diagrams inside Round Cards */
+.round-diagram-container {
+    background: #020905;
+    border: 1px stroke rgba(57, 255, 20, 0.15);
+    border-radius: 10px;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.schematic-svg {
+    width: 100%;
+    max-height: 120px;
+    display: block;
+}
+
+/* Round 2 Analog Flex Layout */
+.analog-diagram-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    gap: 1rem;
+}
+
+.opamp-svg {
+    max-width: 130px;
+    flex-shrink: 0;
+}
+
+/* 3x3 Electronic Component Matrix */
+.components-grid-3x3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    background: rgba(0,0,0,0.5);
+    padding: 6px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.comp-box {
+    width: 32px;
+    height: 32px;
+    background: #07150e;
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.comp-box:hover {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 8px var(--neon-blue-glow);
+}
+
+/* Component Icons (CSS Rendered) */
+.comp-icon.red-led {
+    width: 12px;
+    height: 16px;
+    background: radial-gradient(circle at 50% 30%, #ff4d4d, #b30000);
+    border-radius: 6px 6px 2px 2px;
+    box-shadow: 0 0 8px #ff3333;
+}
+
+.comp-icon.diode-1n4007 {
+    width: 22px;
+    height: 8px;
+    background: linear-gradient(90deg, #111 75%, #ccc 75%, #ccc 85%, #111 85%);
+    border-radius: 2px;
+    border: 1px solid #444;
+}
+
+.comp-icon.transistor-to92 {
+    width: 14px;
+    height: 14px;
+    background: #1a1a1a;
+    border-radius: 7px 7px 2px 2px;
+    border: 1px solid #444;
+    position: relative;
+}
+.comp-icon.transistor-to92::after {
+    content: '|||';
+    position: absolute;
+    bottom: -6px;
+    font-size: 8px;
+    color: #aaa;
+    letter-spacing: -1px;
+}
+
+.comp-icon.ic-chip-dip {
+    width: 20px;
+    height: 14px;
+    background: #111;
+    border: 1px solid #555;
+    border-radius: 2px;
+    position: relative;
+}
+.comp-icon.ic-chip-dip::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: -2px;
+    width: 2px;
+    height: 6px;
+    background: #aaa;
+    box-shadow: 22px 0 0 #aaa;
+}
+
+.comp-icon.resistor-band {
+    width: 22px;
+    height: 7px;
+    background: linear-gradient(90deg, #d4a373 0%, #d4a373 20%, #ef4444 20%, #ef4444 30%, #8b5cf6 30%, #8b5cf6 40%, #eab308 40%, #eab308 50%, #d4a373 50%);
+    border-radius: 3px;
+    border: 1px solid #854d0e;
+}
+
+.comp-icon.ceramic-cap {
+    width: 16px;
+    height: 16px;
+    background: #0284c7;
+    border-radius: 50%;
+    color: white;
+    font-size: 6px;
+    font-family: monospace;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comp-icon.electrolytic-cap {
+    width: 12px;
+    height: 16px;
+    background: linear-gradient(90deg, #1e293b 70%, #94a3b8 70%);
+    border-radius: 2px;
+    border: 1px solid #475569;
+}
+
+.comp-icon.push-btn-sw {
+    width: 14px;
+    height: 14px;
+    background: #334155;
+    border: 2px solid #64748b;
+    border-radius: 3px;
+    position: relative;
+}
+.comp-icon.push-btn-sw::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #1e293b;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+}
+
+.comp-icon.seven-seg {
+    font-family: monospace;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ef4444;
+    text-shadow: 0 0 6px #ef4444;
+}
+
+.round-desc {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.round-footer-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-cyber);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    background: rgba(0,0,0,0.4);
+}
+
+.round-card.round-1 .round-footer-badge { color: var(--neon-green); border: 1px stroke var(--neon-green); }
+.round-card.round-2 .round-footer-badge { color: var(--neon-blue); border: 1px stroke var(--neon-blue); }
+.round-card.round-3 .round-footer-badge { color: var(--neon-orange); border: 1px stroke var(--neon-orange); }
+
+.round-footer-badge svg {
+    width: 0.9rem;
+    height: 0.9rem;
+}
+
+/* Poster Middle Qualifier Banner */
+.poster-middle-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(4, 20, 12, 0.9);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}
+
+.qualifier-box {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.qualifier-icon {
+    width: 2rem;
+    height: 2rem;
+    stroke: var(--gold-copper);
+    color: var(--gold-copper);
+    flex-shrink: 0;
+}
+
+.qualifier-text {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-cyber);
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+}
+
+.qualifier-text strong {
+    color: var(--gold-copper);
+    font-size: 0.9rem;
+}
+
+.qualifier-text span {
+    color: var(--text-secondary);
+}
+
+.qualifier-divider {
+    width: 1px;
+    height: 35px;
+    background: rgba(57, 255, 20, 0.2);
+}
+
+/* Glassmorphism PCB Registration Form Panel */
+.form-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 2.25rem 2rem;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(57, 255, 20, 0.02);
+    position: relative;
+    overflow: hidden;
+}
+
+.pcb-notation {
+    position: absolute;
+    font-family: var(--font-cyber);
+    font-size: 0.55rem;
+    color: rgba(57, 255, 20, 0.3);
+    pointer-events: none;
+    letter-spacing: 0.05em;
+}
+.pcb-notation.top-left { top: 8px; left: 10px; }
+.pcb-notation.top-right { top: 8px; right: 10px; }
+.pcb-notation.bottom-left { bottom: 8px; left: 10px; }
+.pcb-notation.bottom-right { bottom: 8px; right: 10px; }
+
+.form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-header h2 {
+    font-family: var(--font-cyber);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.form-header p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    font-family: var(--font-cyber);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    stroke: var(--text-secondary);
+    fill: none;
+    pointer-events: none;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 2.8rem;
+    background: rgba(4, 12, 8, 0.6);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+select.form-input {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2386efac'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.1rem;
+    padding-right: 2.5rem;
+}
+
+.form-input:focus {
+    border-color: var(--neon-green);
+    box-shadow: 0 0 12px rgba(57, 255, 20, 0.25);
+}
+
+.error-message {
+    color: #f87171;
+    font-size: 0.75rem;
+    margin-top: 0.35rem;
+    display: none;
+}
+
+.form-group.has-error .form-input {
+    border-color: #ef4444;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+.form-group.has-error .form-label {
+    color: #ef4444 !important;
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+    border: none;
+    border-radius: 8px;
+    color: #040c08;
+    font-family: var(--font-cyber);
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow var(--transition-speed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.submit-btn:hover {
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.35), 0 0 35px rgba(0, 229, 255, 0.35);
+    transform: translateY(-2px);
+}
+
+.submit-btn .spinner {
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid rgba(4, 12, 8, 0.3);
+    border-top: 2px solid #040c08;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: none;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Contacts / Coordinators Section */
+.coordinators-section {
+    background: rgba(8, 24, 16, 0.6);
+    border: 1px solid var(--border-color);
+    padding: 2.25rem 2rem;
+    margin-bottom: 2.5rem;
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+}
+
+.coordinators-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr;
+    gap: 2.5rem;
+}
+
+.student-coordinators h3, .faculty-coordinators h3 {
+    font-family: var(--font-cyber);
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    color: var(--neon-green);
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.coordinators-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.coord-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(57, 255, 20, 0.1);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.coord-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    background: rgba(57, 255, 20, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.coord-icon svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    stroke: var(--neon-green);
+    fill: none;
+}
+
+.coord-info h5 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.coord-info a {
+    font-size: 0.82rem;
+    color: var(--neon-green);
+    text-decoration: none;
+}
+
+.faculty-coordinators h3 {
+    color: var(--neon-orange);
+}
+
+.faculty-coordinators .coord-icon {
+    background: rgba(255, 170, 0, 0.1);
+}
+
+.faculty-coordinators .coord-icon svg {
+    stroke: var(--neon-orange);
+}
+
+.faculty-coordinators .coord-info a {
+    color: var(--neon-orange);
+}
+
+/* Poster Bottom Organiser Section */
+.poster-bottom-section {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 2rem;
+    background: rgba(4, 18, 12, 0.85);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 2.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.bottom-left-organiser {
+    display: flex;
+    align-items: center;
+}
+
+.iete-brand-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.iete-logo {
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 10px rgba(229, 193, 88, 0.3));
+}
+
+.organiser-association {
+    font-family: var(--font-cyber);
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--gold-copper);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.competition-purpose {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.competition-purpose .highlight-hands-on {
+    color: var(--poster-red);
+    font-weight: 700;
+}
+
+.competition-purpose .highlight-elec {
+    color: var(--neon-green);
+    font-weight: 700;
+}
+
+.bottom-right-event-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.event-meta-box {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(229, 193, 88, 0.25);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    width: 100%;
+}
+
+.event-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-cyber);
+    font-size: 0.85rem;
+}
+
+.event-meta-row svg {
+    stroke: var(--gold-copper);
+    flex-shrink: 0;
+}
+
+.meta-label {
+    color: var(--gold-copper);
+    font-weight: 700;
+    margin-right: 0.4rem;
+}
+
+.meta-val {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+/* Footer Copyright */
+footer {
+    text-align: center;
+    padding: 1.5rem 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    border-top: 1px solid rgba(57, 255, 20, 0.08);
+}
+
+/* Success Ticket Overlay */
+.success-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(4, 12, 8, 0.95);
+    z-index: 100;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.success-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.ticket-container {
+    background: #091710;
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.ticket-header {
+    background: linear-gradient(135deg, #0e291c, #07150e);
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 2px dashed rgba(57, 255, 20, 0.2);
+}
+
+.ticket-badge {
+    display: inline-block;
+    background: rgba(57, 255, 20, 0.1);
+    border: 1px solid var(--neon-green);
+    color: var(--neon-green);
+    font-family: var(--font-cyber);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+}
+
+.ticket-title {
+    font-family: var(--font-cyber);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    text-transform: uppercase;
+}
+
+.ticket-subtitle {
+    font-size: 0.85rem;
+    color: var(--neon-orange);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.25rem;
+}
+
+.ticket-body {
+    padding: 2rem;
+}
+
+.ticket-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    background: rgba(57, 255, 20, 0.015);
+    border: 1px solid rgba(57, 255, 20, 0.06);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.ticket-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.ticket-label {
+    font-family: var(--font-cyber);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.ticket-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.ticket-item.full-width {
+    grid-column: span 2;
+}
+
+.whatsapp-box {
+    text-align: center;
+    background: rgba(37, 211, 102, 0.05);
+    border: 1px solid rgba(37, 211, 102, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.whatsapp-box p {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 0.85rem;
+}
+
+.whatsapp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background-color: var(--whatsapp-green);
+    color: white;
+    text-decoration: none;
+    font-family: var(--font-cyber);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.85rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+.ticket-close-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-family: var(--font-cyber);
+    font-size: 0.8rem;
+    padding: 0.75rem;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+/* Hidden Admin Dashboard Style */
+.admin-dashboard {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 90%;
+    max-width: 900px;
+    height: 80vh;
+    background: #05120a;
+    border: 1px solid var(--neon-green);
+    box-shadow: 0 0 50px rgba(57, 255, 20, 0.25);
+    border-radius: 16px;
+    z-index: 200;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.admin-dashboard.active {
+    display: flex;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.admin-header {
+    background: rgba(57, 255, 20, 0.04);
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(57, 255, 20, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-header h3 {
+    font-family: var(--font-cyber);
+    font-size: 1.2rem;
+    color: var(--neon-green);
+    text-transform: uppercase;
+}
+
+.admin-controls {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.admin-search {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    color: white;
+    outline: none;
+    font-size: 0.85rem;
+}
+
+.admin-btn {
+    background: var(--neon-green);
+    color: #040c08;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-family: var(--font-cyber);
+    font-weight: 800;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.admin-btn.btn-close {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.admin-table-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.admin-table th {
+    font-family: var(--font-cyber);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid rgba(57, 255, 20, 0.15);
+}
+
+.admin-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(57, 255, 20, 0.05);
+    color: var(--gold-copper);
+}
+
+.no-registrations {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 3rem;
+    font-style: italic;
+}
+
+.admin-trigger-area {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    bottom: 0;
+    right: 0;
+    cursor: default;
+    z-index: 10;
+}
+
+/* Responsive Rules */
+@media (max-width: 992px) {
+    .main-content-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .poster-bottom-section {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .bottom-right-event-meta {
+        justify-content: center;
+    }
+
+    h1.main-title.poster-heading {
+        font-size: 2.5rem;
+    }
+
+    .university-brand {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .univ-titles {
+        text-align: center;
+    }
+
+    .poster-middle-banner {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .qualifier-divider {
+        width: 80%;
+        height: 1px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .glow-header-container {
+        padding: 1.25rem 1rem;
+    }
+
+    .univ-name {
+        font-size: 1.5rem;
+    }
+
+    .dept-name {
+        font-size: 0.72rem;
+    }
+
+    h1.main-title.poster-heading {
+        font-size: 1.8rem;
+    }
+
+    .circuit-decoration-left, .circuit-decoration-right {
+        display: none;
+    }
+
+    .poster-tagline {
+        font-size: 0.85rem;
+    }
+
+    .coordinators-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .iete-brand-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}

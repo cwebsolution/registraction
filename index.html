@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit Clash Competition - Pragati University (ECE Dept)</title>
+    <meta name="description" content="Official registration portal for Circuit Clash Competition organised by Department of Electronics & Communication Engineering in association with ISF at Pragati University.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Cyber PCB Background Canvas -->
+    <canvas id="circuit-canvas"></canvas>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <!-- University & Event Main Header Banner -->
+        <header>
+            <div class="glow-header-container">
+                <!-- University Branding Header -->
+                <div class="university-brand">
+                    <div class="univ-logo-wrap">
+                        <!-- Pragati University Emblem SVG -->
+                        <svg class="univ-logo" viewBox="0 0 120 120" width="70" height="70">
+                            <circle cx="60" cy="60" r="56" fill="#04140b" stroke="#e5c158" stroke-width="3"/>
+                            <circle cx="60" cy="60" r="50" fill="none" stroke="#00e5ff" stroke-width="1.5" stroke-dasharray="4 2"/>
+                            <!-- Inner decorative ring -->
+                            <circle cx="60" cy="60" r="42" fill="#061e12" stroke="#e5c158" stroke-width="1.5"/>
+                            <!-- Telugu Arc Text representation -->
+                            <path id="textPathTop" d="M 22 60 A 38 38 0 0 1 98 60" fill="none"/>
+                            <text font-size="7" font-weight="bold" fill="#e5c158" text-anchor="middle">
+                                <textPath href="#textPathTop" startOffset="50%">ప్రగతి విశ్వవిద్యాలయం</textPath>
+                            </text>
+                            <!-- Bottom Arc Text -->
+                            <path id="textPathBottom" d="M 98 60 A 38 38 0 0 1 22 60" fill="none"/>
+                            <text font-size="6.5" font-weight="bold" fill="#39ff14" text-anchor="middle">
+                                <textPath href="#textPathBottom" startOffset="50%">PRAGATI UNIVERSITY</textPath>
+                            </text>
+                            <!-- Center Icons: Book & Veena & Waves -->
+                            <g transform="translate(60, 60) scale(0.85)">
+                                <!-- Open Book -->
+                                <path d="M-18,5 Q-9,-2 0,5 Q9,-2 18,5 L18,18 Q9,11 0,18 Q-9,11 -18,18 Z" fill="#00e5ff" opacity="0.85"/>
+                                <path d="M0,5 L0,18" stroke="#04140b" stroke-width="1.5"/>
+                                <!-- Veena Instrument outline -->
+                                <path d="M-10,-15 C-12,-8 -4,0 0,8 C4,0 12,-8 10,-15 Z" fill="none" stroke="#e5c158" stroke-width="1.5"/>
+                                <circle cx="0" cy="-15" r="4" fill="#e5c158"/>
+                                <!-- Bridge / Rising Sun Rays -->
+                                <line x1="-12" y1="-22" x2="12" y2="-22" stroke="#39ff14" stroke-width="1.5"/>
+                                <line x1="0" y1="-28" x2="0" y2="-22" stroke="#39ff14" stroke-width="1.5"/>
+                                <line x1="-8" y1="-27" x2="-5" y2="-22" stroke="#39ff14" stroke-width="1.5"/>
+                                <line x1="8" y1="-27" x2="5" y2="-22" stroke="#39ff14" stroke-width="1.5"/>
+                            </g>
+                            <!-- Ribbon Banner at Bottom of Seal -->
+                            <rect x="20" y="94" width="80" height="14" rx="3" fill="#991b1b" stroke="#e5c158" stroke-width="1"/>
+                            <text x="60" y="104" font-size="5.5" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="sans-serif">EDUCATION IS SUPREME DEITY</text>
+                        </svg>
+                    </div>
+                    <div class="univ-titles">
+                        <h2 class="univ-name">PRAGATI UNIVERSITY</h2>
+                        <p class="dept-name">DEPARTMENT OF ELECTRONICS & COMMUNICATION ENGINEERING</p>
+                    </div>
+                </div>
+
+                <!-- Main Poster Title -->
+                <div class="poster-title-wrap">
+                    <div class="circuit-decoration-left">
+                        <svg viewBox="0 0 60 40" width="50" height="35">
+                            <path d="M 5,20 L 25,20 L 35,10 L 55,10 M 25,20 L 35,30 L 55,30" stroke="#39ff14" stroke-width="2" fill="none"/>
+                            <circle cx="5" cy="20" r="3" fill="#39ff14"/>
+                            <circle cx="55" cy="10" r="3" fill="#00e5ff"/>
+                            <circle cx="55" cy="30" r="3" fill="#00e5ff"/>
+                        </svg>
+                    </div>
+                    <h1 class="main-title poster-heading" id="main-title-trigger" title="Double click to access Admin Panel">
+                        CIRCUIT CLASH COMPETITION
+                    </h1>
+                    <div class="circuit-decoration-right">
+                        <svg viewBox="0 0 60 40" width="50" height="35">
+                            <path d="M 55,20 L 35,20 L 25,10 L 5,10 M 35,20 L 25,30 L 5,30" stroke="#39ff14" stroke-width="2" fill="none"/>
+                            <circle cx="55" cy="20" r="3" fill="#39ff14"/>
+                            <circle cx="5" cy="10" r="3" fill="#00e5ff"/>
+                            <circle cx="5" cy="30" r="3" fill="#00e5ff"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 3 Top Feature Badges Bar -->
+                <div class="poster-top-badges">
+                    <div class="top-badge badge-rounds">
+                        <svg class="badge-icon" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                        </svg>
+                        <span>3 THRILLING ROUNDS <span class="badge-accent-blue">ONE CHAMPION</span></span>
+                    </div>
+
+                    <div class="top-badge badge-part">
+                        <svg class="badge-icon" viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        <span>INDIVIDUAL PARTICIPATION</span>
+                    </div>
+
+                    <div class="top-badge badge-prizes">
+                        <svg class="badge-icon" viewBox="0 0 24 24">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M4 22h16" stroke="currentColor" stroke-width="2"/>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        <span>EXCITING PRIZES AWAIT THE WINNERS!</span>
+                    </div>
+                </div>
+
+                <!-- Tagline Banner -->
+                <div class="promo-bar poster-tagline">
+                    CHALLENGE YOUR <span class="highlight-mind">MIND</span>. TEST YOUR <span class="highlight-skills">SKILLS</span>. BE THE <span class="highlight-champion">CHAMPION!</span>
+                </div>
+                <div class="glow-header-container-bottom-screws"></div>
+            </div>
+        </header>
+
+        <!-- Quick Event Meta Details Grid -->
+        <div class="event-meta-grid">
+            <div class="meta-card date">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2" fill="none"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2"></line>
+                    <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2"></line>
+                    <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"></line>
+                </svg>
+                <div class="meta-details">
+                    <h3>Date</h3>
+                    <p>19/08/2026</p>
+                </div>
+            </div>
+
+            <div class="meta-card venue">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" fill="none"></path>
+                    <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2" fill="none"></circle>
+                </svg>
+                <div class="meta-details">
+                    <h3>Venue</h3>
+                    <p>ECE DEPARTMENT EG-6</p>
+                </div>
+            </div>
+            
+            <div class="meta-card time">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"></circle>
+                    <polyline points="12 6 12 12 16 14" stroke="currentColor" stroke-width="2" fill="none"></polyline>
+                </svg>
+                <div class="meta-details">
+                    <h3>Time</h3>
+                    <p>2:00 PM - 4:00 PM</p>
+                </div>
+            </div>
+
+            <div class="meta-card participants">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" fill="none"></path>
+                    <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2" fill="none"></path>
+                </svg>
+                <div class="meta-details">
+                    <h3>Eligibility</h3>
+                    <p>All ECE & EEE Students</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Layout Split: Competition Info & Registration Form -->
+        <div class="main-content-grid">
+            
+            <!-- Left Side: Competition Rounds Cards -->
+            <div class="rounds-section">
+                <h2 class="section-title"><span></span>Competition Rounds</h2>
+                
+                <div class="rounds-grid">
+                    <!-- Round 1: Logic Hunt -->
+                    <div class="round-card round-1">
+                        <div class="round-header">
+                            <span class="round-badge">ROUND 1</span>
+                        </div>
+                        <h3 class="round-title">LOGIC HUNT</h3>
+
+                        <!-- Diagram SVG: AND Gate + D Flip Flop -->
+                        <div class="round-diagram-container">
+                            <svg class="schematic-svg" viewBox="0 0 320 100">
+                                <!-- AND Gate -->
+                                <g transform="translate(20, 15)">
+                                    <!-- Inputs -->
+                                    <line x1="0" y1="12" x2="25" y2="12" stroke="#39ff14" stroke-width="2"/>
+                                    <line x1="0" y1="28" x2="25" y2="28" stroke="#39ff14" stroke-width="2"/>
+                                    <circle cx="0" cy="12" r="3" fill="#39ff14"/>
+                                    <circle cx="0" cy="28" r="3" fill="#39ff14"/>
+                                    <!-- AND gate body -->
+                                    <path d="M 25,2 C 55,2 55,38 25,38 Z" fill="none" stroke="#39ff14" stroke-width="2.5"/>
+                                    <line x1="25" y1="2" x2="25" y2="38" stroke="#39ff14" stroke-width="2.5"/>
+                                    <!-- Output line -->
+                                    <line x1="55" y1="20" x2="80" y2="20" stroke="#39ff14" stroke-width="2"/>
+                                    <circle cx="80" cy="20" r="3" fill="#39ff14"/>
+                                </g>
+
+                                <!-- D Flip-Flop -->
+                                <g transform="translate(140, 10)">
+                                    <!-- Box -->
+                                    <rect x="0" y="0" width="90" height="75" fill="rgba(4, 20, 11, 0.9)" stroke="#39ff14" stroke-width="2" rx="4"/>
+                                    <!-- Labels -->
+                                    <text x="15" y="24" fill="#39ff14" font-family="Orbitron, monospace" font-size="12" font-weight="bold">D</text>
+                                    <text x="22" y="54" fill="#39ff14" font-family="Orbitron, monospace" font-size="11" font-weight="bold">CLK</text>
+                                    <text x="68" y="24" fill="#39ff14" font-family="Orbitron, monospace" font-size="12" font-weight="bold">Q</text>
+                                    <text x="68" y="58" fill="#39ff14" font-family="Orbitron, monospace" font-size="12" font-weight="bold">Q̅</text>
+                                    <!-- Clock Triangle -->
+                                    <path d="M 0,44 L 12,50 L 0,56" fill="none" stroke="#39ff14" stroke-width="2"/>
+                                    <!-- Outer Terminal Wires -->
+                                    <line x1="-20" y1="20" x2="0" y2="20" stroke="#39ff14" stroke-width="2"/>
+                                    <line x1="-20" y1="50" x2="0" y2="50" stroke="#39ff14" stroke-width="2"/>
+                                    <circle cx="-20" cy="20" r="3" fill="#39ff14"/>
+                                    <circle cx="-20" cy="50" r="3" fill="#39ff14"/>
+                                    <line x1="90" y1="20" x2="110" y2="20" stroke="#39ff14" stroke-width="2"/>
+                                    <line x1="90" y1="54" x2="110" y2="54" stroke="#39ff14" stroke-width="2"/>
+                                    <circle cx="110" cy="20" r="3" fill="#39ff14"/>
+                                    <circle cx="110" cy="54" r="3" fill="#39ff14"/>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <p class="round-desc">A battle on digital thinking! Solve tricky problems quickly on digital logic circuits and prove your mastery on digital electronics!</p>
+                        
+                        <div class="round-footer-badge">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"></circle><polyline points="12 6 12 12 14 14" stroke="currentColor" stroke-width="2" fill="none"></polyline></svg>
+                            <span>TIME LIMIT: 15 MINUTES</span>
+                        </div>
+                    </div>
+
+                    <!-- Round 2: Analog Insight -->
+                    <div class="round-card round-2">
+                        <div class="round-header">
+                            <span class="round-badge">ROUND 2</span>
+                        </div>
+                        <h3 class="round-title">ANALOG INSIGHT</h3>
+
+                        <!-- Diagram SVG: Op-Amp Symbol & 3x3 Component Matrix Grid -->
+                        <div class="round-diagram-container">
+                            <div class="analog-diagram-flex">
+                                <!-- Op Amp SVG -->
+                                <svg class="schematic-svg opamp-svg" viewBox="0 0 140 75">
+                                    <g transform="translate(10, 5)">
+                                        <!-- Triangle -->
+                                        <path d="M 30,5 L 95,35 L 30,65 Z" fill="rgba(4, 20, 11, 0.9)" stroke="#00e5ff" stroke-width="2"/>
+                                        <text x="36" y="24" fill="#00e5ff" font-family="monospace" font-size="16" font-weight="bold">+</text>
+                                        <text x="38" y="52" fill="#00e5ff" font-family="monospace" font-size="18" font-weight="bold">−</text>
+                                        <!-- Inputs -->
+                                        <line x1="0" y1="20" x2="30" y2="20" stroke="#00e5ff" stroke-width="2"/>
+                                        <line x1="0" y1="50" x2="30" y2="50" stroke="#00e5ff" stroke-width="2"/>
+                                        <circle cx="0" cy="20" r="3" fill="#00e5ff"/>
+                                        <circle cx="0" cy="50" r="3" fill="#00e5ff"/>
+                                        <!-- Output -->
+                                        <line x1="95" y1="35" x2="125" y2="35" stroke="#00e5ff" stroke-width="2"/>
+                                        <circle cx="125" cy="35" r="3" fill="#00e5ff"/>
+                                    </g>
+                                </svg>
+
+                                <!-- 3x3 Components Grid Box -->
+                                <div class="components-grid-3x3">
+                                    <!-- 1. Red LED -->
+                                    <div class="comp-box" title="LED">
+                                        <div class="comp-icon red-led"></div>
+                                    </div>
+                                    <!-- 2. Diode -->
+                                    <div class="comp-box" title="Diode (1N4007)">
+                                        <div class="comp-icon diode-1n4007"></div>
+                                    </div>
+                                    <!-- 3. Transistor -->
+                                    <div class="comp-box" title="Transistor (TO-92)">
+                                        <div class="comp-icon transistor-to92"></div>
+                                    </div>
+                                    <!-- 4. IC Chip -->
+                                    <div class="comp-box" title="DIP IC Chip">
+                                        <div class="comp-icon ic-chip-dip"></div>
+                                    </div>
+                                    <!-- 5. Resistor -->
+                                    <div class="comp-box" title="Resistor">
+                                        <div class="comp-icon resistor-band"></div>
+                                    </div>
+                                    <!-- 6. Ceramic Capacitor -->
+                                    <div class="comp-box" title="Ceramic Capacitor (102)">
+                                        <div class="comp-icon ceramic-cap">102</div>
+                                    </div>
+                                    <!-- 7. Electrolytic Cap -->
+                                    <div class="comp-box" title="Electrolytic Capacitor">
+                                        <div class="comp-icon electrolytic-cap"></div>
+                                    </div>
+                                    <!-- 8. Push Button -->
+                                    <div class="comp-box" title="Push Button">
+                                        <div class="comp-icon push-btn-sw"></div>
+                                    </div>
+                                    <!-- 9. 7 Segment Display -->
+                                    <div class="comp-box" title="7-Segment LED">
+                                        <div class="comp-icon seven-seg">8.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="round-desc">Test your practical knowledge by identifying real-world electronic components from their appearance.</p>
+
+                        <div class="round-footer-badge">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"></circle><polyline points="12 6 12 12 14 14" stroke="currentColor" stroke-width="2" fill="none"></polyline></svg>
+                            <span>TIME LIMIT: 15 MINUTES</span>
+                        </div>
+                    </div>
+
+                    <!-- Round 3: Circuit Designing -->
+                    <div class="round-card round-3">
+                        <div class="round-header">
+                            <span class="round-badge">ROUND 3</span>
+                        </div>
+                        <h3 class="round-title">CIRCUIT DESIGNING</h3>
+
+                        <!-- Diagram SVG: NPN Transistor Amplifier Circuit -->
+                        <div class="round-diagram-container">
+                            <svg class="schematic-svg" viewBox="0 0 310 135">
+                                <g transform="translate(10, 10)">
+                                    <!-- Vcc Line -->
+                                    <text x="10" y="15" fill="#ffaa00" font-family="Orbitron, monospace" font-size="12" font-weight="bold">Vcc</text>
+                                    <line x1="45" y1="10" x2="210" y2="10" stroke="#ffaa00" stroke-width="2"/>
+                                    <circle cx="45" cy="10" r="3" fill="#ffaa00"/>
+                                    <circle cx="210" cy="10" r="3" fill="#ffaa00"/>
+
+                                    <!-- Resistor R1 -->
+                                    <line x1="45" y1="10" x2="45" y2="25" stroke="#ffaa00" stroke-width="2"/>
+                                    <rect x="39" y="25" width="12" height="24" fill="rgba(4,20,11,0.9)" stroke="#ffaa00" stroke-width="1.5"/>
+                                    <text x="18" y="40" fill="#ffaa00" font-family="sans-serif" font-size="11">R1</text>
+                                    <line x1="45" y1="49" x2="45" y2="65" stroke="#ffaa00" stroke-width="2"/>
+
+                                    <!-- Resistor Rb -->
+                                    <line x1="45" y1="65" x2="70" y2="65" stroke="#ffaa00" stroke-width="2"/>
+                                    <rect x="70" y="59" width="24" height="12" fill="rgba(4,20,11,0.9)" stroke="#ffaa00" stroke-width="1.5"/>
+                                    <text x="75" y="53" fill="#ffaa00" font-family="sans-serif" font-size="11">Rb</text>
+                                    <line x1="94" y1="65" x2="120" y2="65" stroke="#ffaa00" stroke-width="2"/>
+
+                                    <!-- Capacitor Cin & Vin -->
+                                    <text x="5" y="80" fill="#ffaa00" font-family="Orbitron, monospace" font-size="11">Vin</text>
+                                    <line x1="5" y1="65" x2="20" y2="65" stroke="#ffaa00" stroke-width="2"/>
+                                    <circle cx="5" cy="65" r="3" fill="#ffaa00"/>
+                                    <!-- Cap symbol -->
+                                    <line x1="20" y1="56" x2="20" y2="74" stroke="#ffaa00" stroke-width="2"/>
+                                    <line x1="26" y1="56" x2="26" y2="74" stroke="#ffaa00" stroke-width="2"/>
+                                    <line x1="26" y1="65" x2="45" y2="65" stroke="#ffaa00" stroke-width="2"/>
+                                    <text x="14" y="50" fill="#ffaa00" font-family="sans-serif" font-size="10">Cin</text>
+                                    <circle cx="45" cy="65" r="3" fill="#ffaa00"/>
+
+                                    <!-- NPN Transistor -->
+                                    <circle cx="140" cy="65" r="20" stroke="#ffaa00" stroke-width="1.5" fill="rgba(4,20,11,0.9)"/>
+                                    <line x1="130" y1="52" x2="130" y2="78" stroke="#ffaa00" stroke-width="2.5"/> <!-- Base bar -->
+                                    <line x1="120" y1="65" x2="130" y2="65" stroke="#ffaa00" stroke-width="2"/> <!-- Base pin -->
+                                    <line x1="130" y1="58" x2="148" y2="48" stroke="#ffaa00" stroke-width="2"/> <!-- Collector line -->
+                                    <line x1="130" y1="72" x2="148" y2="82" stroke="#ffaa00" stroke-width="2"/> <!-- Emitter line -->
+                                    <!-- Emitter Arrow -->
+                                    <polygon points="144,76 150,84 140,84" fill="#ffaa00"/>
+
+                                    <!-- Resistor Rc -->
+                                    <line x1="210" y1="10" x2="210" y2="25" stroke="#ffaa00" stroke-width="2"/>
+                                    <rect x="204" y="25" width="12" height="24" fill="rgba(4,20,11,0.9)" stroke="#ffaa00" stroke-width="1.5"/>
+                                    <text x="220" y="40" fill="#ffaa00" font-family="sans-serif" font-size="11">Rc</text>
+                                    <line x1="210" y1="49" x2="210" y2="48" stroke="#ffaa00" stroke-width="2"/>
+                                    <line x1="148" y1="48" x2="210" y2="48" stroke="#ffaa00" stroke-width="2"/>
+                                    <circle cx="210" cy="48" r="3" fill="#ffaa00"/>
+
+                                    <!-- Vout -->
+                                    <line x1="210" y1="48" x2="265" y2="48" stroke="#ffaa00" stroke-width="2"/>
+                                    <circle cx="265" cy="48" r="3" fill="#ffaa00"/>
+                                    <text x="245" y="40" fill="#ffaa00" font-family="Orbitron, monospace" font-size="11">Vout</text>
+
+                                    <!-- Emitter Cap Ce & GND -->
+                                    <line x1="148" y1="82" x2="210" y2="82" stroke="#ffaa00" stroke-width="2"/>
+                                    <line x1="210" y1="82" x2="210" y2="92" stroke="#ffaa00" stroke-width="2"/>
+                                    <!-- Cap Ce -->
+                                    <line x1="200" y1="92" x2="220" y2="92" stroke="#ffaa00" stroke-width="2"/>
+                                    <line x1="200" y1="97" x2="220" y2="97" stroke="#ffaa00" stroke-width="2"/>
+                                    <text x="225" y="96" fill="#ffaa00" font-family="sans-serif" font-size="10">Ce</text>
+                                    <line x1="210" y1="97" x2="210" y2="108" stroke="#ffaa00" stroke-width="2"/>
+                                    <!-- GND -->
+                                    <line x1="195" y1="108" x2="225" y2="108" stroke="#ffaa00" stroke-width="2"/>
+                                    <line x1="201" y1="113" x2="219" y2="113" stroke="#ffaa00" stroke-width="1.5"/>
+                                    <line x1="207" y1="118" x2="213" y2="118" stroke="#ffaa00" stroke-width="1.5"/>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <p class="round-desc">Read, understand, and design! Test your practical circuit skills by drawing accurately the given circuit before time runs out!</p>
+
+                        <div class="round-footer-badge">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"></circle><polyline points="12 6 12 12 14 14" stroke="currentColor" stroke-width="2" fill="none"></polyline></svg>
+                            <span>TIME LIMIT: 20 MINUTES</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Poster Qualifier Banner -->
+                <div class="poster-middle-banner">
+                    <div class="qualifier-box left-qualifier">
+                        <svg class="qualifier-icon" viewBox="0 0 24 24">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        <div class="qualifier-text">
+                            <strong>TOP 5 FINALISTS</strong>
+                            <span>QUALIFY FOR ROUND 3!</span>
+                        </div>
+                    </div>
+
+                    <div class="qualifier-divider"></div>
+
+                    <div class="qualifier-box right-qualifier">
+                        <svg class="qualifier-icon" viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        <div class="qualifier-text">
+                            <strong>FIND. CONNECT. VERIFY.</strong>
+                            <span class="highlight-champion">BE THE CHAMPION!</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Side: Registration Form -->
+            <div class="form-container">
+                <div class="pcb-notation top-left">VCC (+5V)</div>
+                <div class="pcb-notation top-right">GND (0V)</div>
+                <div class="pcb-notation bottom-left">SIG_IN (A0)</div>
+                <div class="pcb-notation bottom-right">MODEL: CC-2026</div>
+                <div class="form-header">
+                    <h2>Register Now</h2>
+                    <p>Enter your details to secure your spot in the clash</p>
+                </div>
+                
+                <form id="registration-form" novalidate>
+                    <!-- Name -->
+                    <div class="form-group" id="group-name">
+                        <label class="form-label" for="input-name">Full Name</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <input class="form-input" type="text" id="input-name" placeholder="Enter your full name" required>
+                        </div>
+                        <span class="error-message">Please enter your name</span>
+                    </div>
+
+                    <!-- Roll No -->
+                    <div class="form-group" id="group-roll">
+                        <label class="form-label" for="input-roll">Roll Number</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="9" y1="9" x2="15" y2="9"></line>
+                                <line x1="9" y1="13" x2="15" y2="13"></line>
+                                <line x1="9" y1="17" x2="13" y2="17"></line>
+                            </svg>
+                            <input class="form-input" type="text" id="input-roll" placeholder="Enter your official roll number" required>
+                        </div>
+                        <span class="error-message">Please enter a valid roll number</span>
+                    </div>
+
+                    <!-- Year -->
+                    <div class="form-group" id="group-year">
+                        <label class="form-label" for="select-year">Year of Study</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24">
+                                <path d="M22 10v6M2 10v6M6 6h12v12H6z"></path>
+                            </svg>
+                            <select class="form-input" id="select-year" required>
+                                <option value="" disabled selected>Select your year</option>
+                                <option value="1st Year">1st Year</option>
+                                <option value="2nd Year">2nd Year</option>
+                                <option value="3rd Year">3rd Year</option>
+                                <option value="4th Year">4th Year</option>
+                            </select>
+                        </div>
+                        <span class="error-message">Please select your current year</span>
+                    </div>
+
+                    <!-- Section -->
+                    <div class="form-group" id="group-section">
+                        <label class="form-label" for="select-section">Section</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            </svg>
+                            <select class="form-input" id="select-section" required>
+                                <option value="" disabled selected>Select your section</option>
+                                <option value="Section A">Section A</option>
+                                <option value="Section B">Section B</option>
+                                <option value="Section C">Section C</option>
+                                <option value="Section D">Section D</option>
+                            </select>
+                        </div>
+                        <span class="error-message">Please select your section</span>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-group" id="group-phone">
+                        <label class="form-label" for="input-phone">Phone Number</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            <input class="form-input" type="tel" id="input-phone" placeholder="Enter 10-digit mobile number" required>
+                        </div>
+                        <span class="error-message">Please enter a valid 10-digit phone number</span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="submit-btn" type="submit" id="submit-button">
+                        <span class="spinner" id="btn-spinner"></span>
+                        <span id="btn-text">Submit</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Contact / Coordinators Section -->
+        <div class="coordinators-section">
+            <div class="coordinators-grid">
+                <div class="student-coordinators">
+                    <h3>STUDENT COORDINATORS</h3>
+                    <div class="coordinators-list">
+                        <div class="coord-card">
+                            <div class="coord-icon">
+                                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            </div>
+                            <div class="coord-info">
+                                <h5>G. Siri chandana</h5>
+                                <a href="tel:8688807723">8688807723</a>
+                            </div>
+                        </div>
+                        
+                        <div class="coord-card">
+                            <div class="coord-icon">
+                                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            </div>
+                            <div class="coord-info">
+                                <h5>B. Lakshmi Santhoshini</h5>
+                                <a href="tel:9966556802">9966556802</a>
+                            </div>
+                        </div>
+
+                        <div class="coord-card">
+                            <div class="coord-icon">
+                                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            </div>
+                            <div class="coord-info">
+                                <h5>A. Salman Raju</h5>
+                                <a href="tel:9573679361">9573679361</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faculty-coordinators">
+                    <h3>FACULTY COORDINATOR</h3>
+                    <div class="coord-card">
+                        <div class="coord-icon">
+                            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                        <div class="coord-info">
+                            <h5>Dr. V. Radhika.</h5>
+                            <a href="tel:9849755182">9849755182</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Poster Bottom Footer Organiser & Meta Card -->
+        <div class="poster-bottom-section">
+            <div class="bottom-left-organiser">
+                <div class="iete-brand-container">
+                    <svg class="iete-logo" viewBox="0 0 100 100" width="60" height="60">
+                        <polygon points="50,5 95,85 5,85" stroke="#e5c158" stroke-width="3" fill="#04140b"/>
+                        <polygon points="50,20 82,78 18,78" stroke="#39ff14" stroke-width="1.5" fill="none"/>
+                        <!-- IETE Emblem inner symbol -->
+                        <circle cx="50" cy="55" r="14" fill="#061e12" stroke="#00e5ff" stroke-width="2"/>
+                        <text x="50" y="59" fill="#e5c158" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">IETE</text>
+                        <!-- Bottom banner -->
+                        <rect x="15" y="80" width="70" height="12" fill="#04140b" stroke="#e5c158" stroke-width="1"/>
+                        <text x="50" y="89" fill="#ffffff" font-family="sans-serif" font-size="7" font-weight="bold" text-anchor="middle">India</text>
+                    </svg>
+                    <div class="organiser-title-wrap">
+                        <h4 class="organiser-association">• • • Organised by Association with ISF • • •</h4>
+                        <p class="competition-purpose">
+                            Circuit Clash is a <span class="highlight-hands-on">hands-on</span> competition designed specifically for <span class="highlight-elec">Electronics students</span>. Building and troubleshooting circuits under time pressure tests your skills and problem-solving abilities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-event-meta">
+                <div class="event-meta-box">
+                    <div class="event-meta-row">
+                        <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/></svg>
+                        <div>
+                            <span class="meta-label">Date :</span>
+                            <span class="meta-val">19/08/2026</span>
+                        </div>
+                    </div>
+                    <div class="event-meta-row">
+                        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                        <div>
+                            <span class="meta-label">Venue :</span>
+                            <span class="meta-val">ECE DEPARTMENT EG-6</span>
+                        </div>
+                    </div>
+                    <div class="event-meta-row">
+                        <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><polyline points="12 6 12 12 16 14" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                        <div>
+                            <span class="meta-label">Time :</span>
+                            <span class="meta-val">2:00 PM - 4:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 Circuit Clash Competition • Pragati University • Department of ECE. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Success Modal Overlay / Digital Ticket -->
+    <div class="success-overlay" id="success-modal">
+        <div class="ticket-container">
+            <div class="ticket-header">
+                <span class="ticket-badge">ENTRY PASS APPROVED</span>
+                <h2 class="ticket-title">Circuit Clash</h2>
+                <p class="ticket-subtitle">Registration Ticket</p>
+            </div>
+            
+            <div class="ticket-body">
+                <div class="ticket-details-grid">
+                    <div class="ticket-item">
+                        <span class="ticket-label">Participant</span>
+                        <span class="ticket-value" id="ticket-name">Aravind R</span>
+                    </div>
+                    <div class="ticket-item">
+                        <span class="ticket-label">Roll Number</span>
+                        <span class="ticket-value" id="ticket-roll">20ECE101</span>
+                    </div>
+                    <div class="ticket-item">
+                        <span class="ticket-label">Year / Sec</span>
+                        <span class="ticket-value" id="ticket-year-sec">3rd Year - Sec A</span>
+                    </div>
+                    <div class="ticket-item">
+                        <span class="ticket-label">Phone</span>
+                        <span class="ticket-value" id="ticket-phone">9876543210</span>
+                    </div>
+                    <div class="ticket-item full-width">
+                        <span class="ticket-label">Venue</span>
+                        <span class="ticket-value">ECE Department, EG-6</span>
+                    </div>
+                    <div class="ticket-item full-width">
+                        <span class="ticket-label">Date & Time</span>
+                        <span class="ticket-value">19/08/2026 | 2:00 PM - 4:00 PM</span>
+                    </div>
+                </div>
+
+                <!-- WhatsApp Group Action Box -->
+                <div class="whatsapp-box">
+                    <p>⚠️ Join the official WhatsApp group to get rounds access code & competition updates:</p>
+                    <a href="https://chat.whatsapp.com/FmmkGYo7Pzo7Vq5KzWQIoy?s=cl&p=a&mlu=4" target="_blank" class="whatsapp-btn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.59 1.977 14.113.953 11.999.953c-5.417 0-9.842 4.37-9.846 9.802-.001 1.802.487 3.565 1.413 5.168l-.946 3.454 3.553-.923zm13.111-5.772c-.3-.15-1.774-.874-2.048-.973-.274-.1-.474-.15-.674.15-.2.3-.774.973-.949 1.173-.175.2-.35.225-.65.075-.3-.15-1.263-.465-2.407-1.485-.89-.792-1.49-1.77-1.665-2.07-.175-.3-.019-.462.13-.611.135-.135.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.674-1.623-.924-2.223-.244-.587-.491-.507-.674-.516-.174-.008-.374-.01-.574-.01-.2 0-.525.075-.8.375-.274.3-1.049 1.023-1.049 2.497 0 1.475 1.074 2.897 1.224 3.097.15.2 2.115 3.227 5.125 4.525.715.309 1.274.493 1.71.632.718.228 1.37.196 1.885.119.574-.085 1.774-.725 2.023-1.424.25-.7.25-1.3.175-1.424-.075-.125-.275-.2-.575-.35z"/>
+                        </svg>
+                        Join WhatsApp Group
+                    </a>
+                </div>
+
+                <button class="ticket-close-btn" id="close-ticket-btn">Close Entry Pass</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Admin Panel -->
+    <div class="admin-dashboard" id="admin-panel">
+        <div class="admin-header">
+            <h3>Admin Registration Portal</h3>
+            <div class="admin-controls">
+                <input type="text" class="admin-search" id="admin-search" placeholder="Search by name/roll...">
+                <button class="admin-btn" id="admin-export-btn">Export to Excel</button>
+                <button class="admin-btn" id="admin-erase-btn" style="background: #ef4444; color: white;">Erase Data</button>
+                <button class="admin-btn btn-close" id="admin-close-btn">Close</button>
+            </div>
+        </div>
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Roll Number</th>
+                        <th>Year</th>
+                        <th>Section</th>
+                        <th>Phone Number</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-table-body">
+                    <!-- Dynamic -->
+                </tbody>
+            </table>
+            <div class="no-registrations" id="no-regs-message">No registrations found.</div>
+        </div>
+    </div>
+
+    <!-- Custom Access Gate Modal -->
+    <div class="success-overlay" id="gate-modal">
+        <div class="ticket-container" style="max-width: 380px;">
+            <div class="ticket-header" style="background: linear-gradient(135deg, #111e16, #040c08); border-bottom: 2px dashed rgba(229, 193, 88, 0.2);">
+                <span class="ticket-badge" id="gate-badge" style="border-color: var(--gold-copper); color: var(--gold-copper); text-shadow: 0 0 8px var(--gold-glow);">SECURE GATEWAY</span>
+                <h2 class="ticket-title" id="gate-title" style="font-size: 1.5rem;">Access Key</h2>
+                <p class="ticket-subtitle" id="gate-subtitle">Authentication Required</p>
+            </div>
+            
+            <div class="ticket-body" style="padding: 1.5rem 2rem 2rem 2rem;">
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label class="form-label" for="gate-input" id="gate-input-label">Enter Access Key</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input class="form-input" type="password" id="gate-input" placeholder="••••••••" style="padding-left: 2.8rem;">
+                    </div>
+                    <span class="error-message" id="gate-error-message">Invalid key. Access denied.</span>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem;">
+                    <button class="submit-btn" id="gate-submit-btn" style="flex: 1; padding: 0.75rem;">Verify</button>
+                    <button class="ticket-close-btn" id="gate-cancel-btn" style="flex: 1; padding: 0.75rem;">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secret Trigger Spot -->
+    <div class="admin-trigger-area" id="secret-trigger" title="Admin Trigger"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
